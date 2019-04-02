@@ -1,0 +1,129 @@
+html, body{
+    font-family: 'Roboto', sans-serif;
+    font-size: 100%;
+    background:#d8e9e8 !important;
+    overflow-x: hidden;
+    list-style: none;
+
+}
+.container{
+    background: #F6F6F3;
+}
+
+.graphs {
+    background: #f2f4f8;
+    font-family: 'Roboto', sans-serif;
+    min-height:700px;
+    display: list-item;
+}
+
+.btn-lg.round, .form-control.round{
+    border-radius: 24px;
+}
+.bs-example{
+    margin: 50px;
+}
+.databoxes{
+    display : inline-block;
+}
+.col-md-10.header {
+    margin-left: 50px;
+}
+.bs-example.content_padding {
+    margin-top: 10px;
+}
+.btn-group-lg>.btn, .btn-lg .btn_edit {
+    padding: 10px 14px;
+    font-size: 18px;
+    line-height: 1.3333333;
+}
+.popover {
+    position: absolute;
+    z-index: 100;
+}
+.display_content{
+    display : none;
+}
+.text_link{float: right; cursor: pointer; margin-right: 100px; }
+a:hover {
+    text-decoration: none !important;
+}
+
+.media-object {
+    width: 300px;
+    margin-left: 9%;
+}
+
+
+#nav_header{
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    min-height: 50px;
+    border: 1px solid transparent;
+    padding-left: 16px;
+    padding-top: 15px;
+}
+
+.nav_leftside{
+    color: #595656;
+}
+
+.nav_rightside{
+    color: #595656;
+    float: right;
+    margin-right: 3%;
+}
+
+footer{
+    background-color: #d8e9e8;;
+    color: #414042;;
+    height: 50px;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.dashboard_text{
+    padding-bottom: 20px;
+    padding-top: 30px;
+    padding-left: 15px;
+}
+
+ul, li {
+    list-style: none !important;
+}
+
+.us-nav-utility{
+    position: absolute;
+    top: 60px;
+    right: 12%;
+    text-align: right;
+    font-size: 13px;
+    text-transform: capitalize;
+    list-style: none;
+}
+.display_lft{
+    float: left;
+    margin-left: 20px;
+}
+
+.nav_leftside {
+    color: #595656;
+}
+
+.mar-top-5{
+    margin-top: 5%;
+}
+
+.welcome_txt{
+    float: right;
+    font-size: 13px;
+    margin-right: 10%;
+}
+
+footer{
+    background-color: #d8e9e8;;
+    color: #414042;;
+    height: 50px;
+    text-align: center;
+    padding-top: 10px;
+}

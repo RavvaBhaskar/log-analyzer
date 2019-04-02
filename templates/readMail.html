@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <title>Log Analyzer Application</title>
+      <!-- Bootstrap Core CSS -->
+      <link href="/assets/styles/css/bootstrap.css" rel="stylesheet">
+      <script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
+      <script src="/assets/bower_components/jquery-ui/jquery-ui.js"></script>
+      <script src="/assets/bower_components/jquery-validation/dist/jquery.validate.js"></script>
+      <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+      <script src="/assets/bower_components/moment/moment.js"></script>
+      <script src="/assets/bower_components/angular/angular.js"></script>
+      <script src="/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+      <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+      <script src="/assets/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+      <link type="text/css" href="/assets/bower_components/bootstrap-timepicker/css/timepicker.less" />
+      <!--Datetime picker related-->
+      <!--Datatable related-->
+      <script src="/assets/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+      <script src="/assets/bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
+      <script src="/assets/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+      <link rel="stylesheet" href="/assets/bower_components/datatables/media/css/dataTables.bootstrap.min.css" />
+      <link rel="stylesheet" href="/assets/bower_components/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" />
+      <script src="/node_modules/json-lzw/angular/jsonlzw.js"></script>
+      <!--Datatable related-->
+      <script src="/assets/controller/logController.js"></script>
+      <link rel="stylesheet" href="/assets/bower_components/components-font-awesome/css/font-awesome.css">
+      <!-- Custom CSS -->
+      <link href="assets/styles/css/heroic-features.css" rel="stylesheet">
+      <link href="/assets/styles/css/logViewer.css" rel='stylesheet' type='text/css' />
+</head>
+
+<body ng-app="logApp">
+      <div class="row display-flex-column">
+            <div class="row top-bar">
+                  <div class="col-md-12">
+                        <img class="logo" src="/assets/images/logo-usc.png" alt="USCC Logo">
+                  </div>
+            </div>
+            <div class="row display-flex-calc" ng-controller="mainController" ng-cloak class="ng-cloak">
+                  <div class="col-md-2 side-bar display-flex-column">
+                        <form id="emailReaderFrm">
+                              <p class="white-txt">Incident Email Input:</p>
+                              <textarea id="incidentData" placeholder='Copy paste incident email details..'></textarea>
+                              <div class="row">
+                                    <div class="col-md-6 btn-form-group padding-right-5">
+                                          <button type="button" id="btnEmailSearch" class="btn btn-primary btn-form" ng-click="readEmailData()">
+                                                <span class="glyphicon glyphicon-search"></span>Search
+                                          </button>
+                                    </div>
+                                    <div class="col-md-6 btn-form-group padding-left-5">
+                                          <button type="reset" id="btnReset" class="btn btn-secondary btn-form" ng-click="reset()">
+                                                <span class="glyphicon glyphicon-refresh"></span>Reset
+                                          </button>
+                                    </div>
+                              </div>
+                        </form>
+                        <br>
+                        <p class="white-txt width-100-perc txt-align-center">OR</p>
+                        <form name="formData" class="incident-input-form">
+                              <p class="white-txt">Manual Search:</p>
+                              <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">{{selectedMs}}
+                                          <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu  scrollable-menu" role="menu" aria-labelledby="menu1">
+                                          <li role="presentation" ng-repeat="microservice in microServices">
+                                                <a role="menuitem" tabindex="-1" href="#" ng-click="getLogLocation(microservice)">{{microservice}}</a>
+                                          </li>
+                                    </ul>
+                              </div>
+                              <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="menu2" data-toggle="dropdown">
+                                          {{selectedLogger}}
+                                          <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="menu2">
+                                          <li role="presentation" ng-repeat="logOption in availableOptions">
+                                                <a role="menuitem" tabindex="-1" ng-click="getError(logOption)" href="#">{{logOption}}</a>
+                                          </li>
+                                          </li>
+                                    </ul>
+                              </div>
+                              <div class="form-group">
+                                    <input type="text" value="" class="form-control" id="cid" placeholder="Search term...">
+                              </div>
+                              <div class="form-group">
+                                    <div class="date">
+                                          <div class="input-group input-append date" id="datePicker">
+                                                <input type="text" class="form-control" name="date" id="logDate" />
+                                                <span class="input-group-addon add-on">
+                                                      <span class="glyphicon glyphicon-calendar Default:false"></span>
+                                                </span>
+                                          </div>
+                                    </div>
+                              </div>
+                              <div class="row">
+                                    <div class="col-md-6 btn-form-group padding-right-5">
+                                          <button type="button" id="btnSearch" class="btn btn-primary btn-form" ng-click="getLogDetails(true)" disabled>
+                                                <span class="glyphicon glyphicon-search"></span>Search
+                                          </button>
+                                    </div>
+                                    <div class="col-md-6 btn-form-group padding-left-5">
+                                          <button type="reset" id="btnReset" class="btn btn-secondary btn-form" ng-click="reset()">
+                                                <span class="glyphicon glyphicon-refresh"></span>Reset
+                                          </button>
+                                    </div>
+                              </div>
+                        </form>
+                  </div>
+                  <div class="col-md-10 display-flex-column">
+                        <div class="brandName row">
+                              <span class="navbar-brand" href="#">
+                                    <i class="fa fa-book fa-2" aria-hidden="true"></i> Log Analyzer - US Cellular
+                              </span>
+                        </div>
+                        <div class="auto-response">
+                              <div class="auto-container">
+                                    <p class="auto-text" ng-bind="progressNote">
+                                    </p>
+                                    <span class="progress-dot" ng-hide="searchComplete">.</span>
+                                    <span class="progress-dot" ng-hide="searchComplete">.</span>
+                                    <span class="progress-dot" ng-hide="searchComplete">.</span>
+                              </div>
+                        </div>
+
+                        <div class="card" ng-show="isIncidentRead">
+                              <div class="title">
+                                    <h4 class="card-header incident-card">
+                                          <b>{{incidentObj.incidentNum}}</b>
+                                    </h4>
+                              </div>
+                              <div class="row incident-details">
+                                    <div class="row">
+                                          <div class="col-md-2 incident-key">Customer ID:</div>
+                                          <div class="col-md-10">
+                                                <span class="customerid-background">{{incidentObj.customerId}}</span>
+                                          </div>
+                                    </div>
+                                    <div class="row">
+                                          <div class="col-md-2 incident-key">Short Description:</div>
+                                          <div class="col-md-10">{{incidentObj.shortDesc}}</div>
+                                    </div>
+                                    <div class="row">
+                                          <div class="col-md-2 incident-key">FAID:</div>
+                                          <div class="col-md-10">{{incidentObj.faId}}</div>
+                                    </div>
+                                    <div class="row">
+                                          <div class="col-md-2 incident-key">CTN/MDN:</div>
+                                          <div class="col-md-10">{{incidentObj.ctnMdn}}</div>
+                                    </div>
+                                    <div class="row">
+                                          <div class="col-md-2 incident-key">Details Description:</div>
+                                          <div class="col-md-10">{{incidentObj.detailedDesc}}</div>
+                                    </div>
+                                    <div class="row margin-10">
+                                          <div class="col-md-12 incident-analysed">Incident analysed, recommended microservice for analysis are
+                                                <b>{{incidentObj.microservicesAffected}}.</b>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="card microservice-card" ng-repeat="errorLog in microserviceErroLogsView" ng-hide="mobileGatewayLogCardHide">
+                              <div class="title">
+                                    <h4 class="card-header">{{errorLog[$index].microserviceName | firstuppercase}} error logs</h4>
+                              </div>
+                              <div class="flex-container log-card">
+
+                                    <div class="card" ng-repeat="log in errorLog">
+                                          <h4 ng-if="log.req_id">{{log.microserviceName| firstuppercase}} - error log</h4>
+                                          <h4 ng-if="log.isKnownSolution">Known Solution</h4>
+                                          <div class="row card-details" ng-if="log.isKnownSolution">
+                                                <div class="row">
+                                                      <div class="col-md-6 incident-key">Action Required:</div>
+                                                </div>
+                                                <div class="row">
+                                                      <div class="col-md-12 known-solution">
+                                                            <span ng-bind-html="log.knownSolution"></span>
+                                                      </div>
+                                                </div>
+                                          </div>
+
+                                          <div class="row card-details" ng-if="log.req_id">
+                                                <div class="row" ng-if="log.userId">
+                                                      <div class="col-md-6 incident-key">User Id:</div>
+                                                      <div class="col-md-6 incident-data">
+                                                            <span class="customerid-background">{{log.userId}}</span>
+                                                      </div>
+                                                </div>
+                                                <div class="row" ng-if="log.req_id">
+                                                      <div class="col-md-6 incident-key">Transaction ID:</div>
+                                                      <div class="col-md-6 incident-data">
+                                                            <span class="transid-background">{{log.req_id}}</span>
+                                                      </div>
+                                                </div>
+                                                <div class="row" ng-if="log.message">
+                                                      <div class="col-md-12 error-log-key incident-key">Error Message:</div>
+                                                      <div class="col-md-12 error-log-key-data incident-data">{{log.message}}</div>
+                                                </div>
+                                                <div class="row" ng-if="log.time">
+                                                      <div class="col-md-6 incident-key">Time:</div>
+                                                      <div class="col-md-6 incident-data">{{log.time}}</div>
+                                                </div>
+                                                <div class="row" ng-if="log.time">
+                                                      <div class="col-md-12 incident-data">
+                                                            <button type="button" class="btn btn-secondary btn-form" ng-click="showDetailedLogPopup(log, true)">
+                                                                  Detailed log
+                                                            </button>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="card" ng-repeat="logRequest in mobileGatewayLogData" ng-hide="mobileGatewayLogCardHide">
+                              <div class="title">
+                                    <h4 class="card-header">Mobile App Gateway - {{logRequest[0].logType | firstuppercase}}</h4>
+                              </div>
+                              <div class="flex-container log-card">
+                                    <div class="card" ng-repeat="log in logRequest">
+                                          <div class="title" ng-click="filterMicroservice(log.service)">
+                                                <h4 class="card-header">{{log.logType| firstuppercase}} - {{log.service | firstuppercase}}</h4>
+                                          </div>
+                                          <div class="row card-details">
+                                                <div class="row" ng-if="log.customerId">
+                                                      <div class="col-md-6 incident-key">Customer ID:</div>
+                                                      <div class="col-md-6 incident-data">
+                                                            <span class="customerid-background">{{log.customerId}}</span>
+                                                      </div>
+                                                </div>
+                                                <div class="row" ng-if="log.transactionId">
+                                                      <div class="col-md-6 incident-key">Transaction ID:</div>
+                                                      <div class="col-md-6 incident-data">
+                                                            <span class="transid-background">{{log.transactionId}}</span>
+                                                      </div>
+                                                </div>
+                                                <div class="row" ng-if="log.userId">
+                                                      <div class="col-md-6 incident-key">User Id:</div>
+                                                      <div class="col-md-6 incident-data">{{log.userId}}</div>
+                                                </div>
+                                                <div class="row" ng-if="log.time">
+                                                      <div class="col-md-6 incident-key">Time:</div>
+                                                      <div class="col-md-6 incident-data">{{log.time}}</div>
+                                                </div>
+                                                <div class="row" ng-if="log.time">
+                                                      <div class="col-md-12 incident-data">
+                                                            <button type="button" class="btn btn-secondary btn-form" ng-click="showDetailedLogPopup(log)">
+                                                                  Find More
+                                                            </button>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="row card" id="logInfo" ng-show="mobileGatewayLogCardHide">
+                              <div class="title">
+                                    <h4 class="card-header">
+                                          <b>Related Logs</b>
+                                    </h4>
+                              </div>
+                              <div class="col-sm-6 hero-feature dataTable_datadisplay">
+                                    <div class="thumbnail">
+                                          <div class="caption">
+                                                <table id="dataTableMobile" class="table table-striped table-bordered" cellspacing="0">
+                                                </table>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="overlay">
+                              <i class="fa fa-spinner fa-spin" style="font-size:50px;margin-left: 45%;margin-top:20%;"></i>
+                        </div>
+                        <div class="alert alert-danger fade in" id="errorModal" style="width: 40%;margin-left: 25%" hidden>
+                              <a href="#" class="close" data-dismiss="alert">&times;</a>
+                              <strong>Error!</strong> A problem has been occurred while parsing the logs.Please try again later.
+                        </div>
+                        <div class="alert alert-info fade in" id="infoModal" style="width: 40%;margin-left: 25%" hidden>
+                              <a href="#" class="close" data-dismiss="alert">&times;</a>
+                              <strong>Info!</strong> There are no log entries for the selected logger/date range.
+                        </div>
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div class="vertical-alignment-helper">
+                                    <div class="modal-dialog vertical-align-center">
+                                          <div class="modal-content">
+                                                <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                      <h4 class="modal-title" id="myModalLabel">Log Details</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                      <p id="lineVal"></p>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="modal fade" id="myErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div class="vertical-alignment-helper">
+                                    <div class="modal-dialog vertical-align-center">
+                                          <div class="modal-content">
+                                                <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                      <h4 class="modal-title" id="myModalLabel">Log Details</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                      <div class="row" ng-if="errorModalLog.microserviceName">
+                                                            <div class="col-md-4 incident-key">Service:</div>
+                                                            <div class="col-md-8 incident-data">
+                                                                  {{errorModalLog.microserviceName}}
+                                                            </div>
+                                                      </div>
+                                                      <div class="row" ng-if="errorModalLog.req_id">
+                                                            <div class="col-md-4 incident-key">Transaction ID:</div>
+                                                            <div class="col-md-8 incident-data">
+                                                                  <span class="transid-background">{{errorModalLog.lineDetail.req_id}}</span>
+                                                            </div>
+                                                      </div>
+                                                      <div class="row" ng-if="errorModalLog.message">
+                                                            <div class="col-md-4 incident-key">Error Message:</div>
+                                                            <div class="col-md-8 incident-data">{{errorModalLog.message}}</div>
+                                                      </div>
+                                                      <div class="row" ng-if="errorModalLog.time">
+                                                            <div class="col-md-4 incident-key">Time:</div>
+                                                            <div class="col-md-8 incident-data">{{errorModalLog.time}}</div>
+                                                      </div>
+                                                      <p class="lineVal"></p>
+                                                      <div class="modal-log-data"></div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+</body>
+
+</html>

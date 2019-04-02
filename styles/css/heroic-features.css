@@ -1,0 +1,58 @@
+
+.hero-spacer {
+    margin-top: 50px;
+}
+
+.hero-feature {
+    margin-bottom: 30px;
+}
+
+
+.mar-top-2{
+    margin-top: 2%;
+}
+
+.mar-top-5{
+    margin-top: 5%;
+}
+
+.mar-top-8{
+    margin-top: 8%;
+}
+
+.mar-bot-30{
+    margin-bottom: 150px;
+}
+
+.search{
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+}
+
+.darkClass
+{
+    background-color: grey;
+    filter:alpha(opacity=50); /* IE */
+    opacity: 0.5; /* Safari, Opera */
+    -moz-opacity:0.50; /* FireFox */
+    z-index: 20;
+    height: 100%;
+    width: 100%;
+    background-repeat:no-repeat;
+    background-position:center;
+    position:absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#myModal{
+    margin-top: 13%;
+}

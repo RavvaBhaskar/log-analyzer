@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <title>Log Analyser Application</title>
+  <link rel="stylesheet" href="/assets/node_modules/ng-tags-input/build/ng-tags-input.min.css">
+  <link href="/assets/styles/css/bootstrap.css" rel="stylesheet">
+  <script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/assets/bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="/assets/node_modules/ng-tags-input/build/ng-tags-input.min.js"></script>
+  <script src="/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="/assets/controller/keywordMapController.js"></script>
+  <link href="/assets/styles/css/logViewer.css" rel='stylesheet' type='text/css' />
+</head>
+
+<body ng-app="logApp">
+  <div class="row display-flex-column display-full">
+    <div class="row top-bar">
+      <div class="col-md-12">
+        <img class="logo" src="/assets/images/logo-usc.png" alt="USCC Logo">
+      </div>
+    </div>
+    <div class="row keymap display-flex-calc" ng-controller="keywordMapController">
+      <div class="col-md-12 side-bar display-flex-column">
+        <div class="container">
+          <div class="auto-response">
+            <div class="auto-container">
+              <p>Microservices Key Mapping</p>
+            </div>
+          </div>
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default" ng-repeat="microserviceObj in microserviceKeyConfig">
+              <div class="panel-heading custom-panel" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}">
+                <h4 class="panel-title">
+                  <span>{{microserviceObj.microservice}}</span>
+                </h4>
+              </div>
+              <div id="collapse{{$index}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <label>Key Map:</label>
+                  <div class="taginput-box custom-taginput">
+                    <tags-input ng-model="microserviceObj.keyMap" display-property="key" replace-spaces-with-dashes="false"></tags-input>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <label>Known Solution:</label>
+                  <div class="taginput-box custom-taginput">
+                    <tags-input ng-model="microserviceObj.knownSolution" display-property="key" replace-spaces-with-dashes="false"></tags-input>
+                  </div>
+                </div>
+                <div class="button-space">
+                  <button class="btn btn-primary" ng-click="updateLatestKeywords(microserviceObj)">Save</button>
+                  <button class="btn btn-secondary" ng-click="removeChanges()">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

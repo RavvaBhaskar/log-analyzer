@@ -1,0 +1,68 @@
+{
+  "microServices": [
+    "mobile-app-gateway",
+    "account-info",
+    "account-products",
+    "account-usage",
+    "address",
+    "auth",
+    "autopay",
+    "balance",
+    "bill-cycle",
+    "bill-delivery",
+    "credit-information",
+    "login-app",
+    "login-web",
+    "notifications",
+    "payment",
+    "payment-activity",
+    "payment-wallet",
+    "profile",
+    "reAuthentication",
+    "subscriber-usage",
+    "tnc",
+    "user-registration",
+    "verification"
+  ],
+  "transOnMobileGateWayTableView": {
+        "columnDefs": [{
+            "targets": "0",
+            "searchable": false,
+            "orderable": false,
+            "width": "2.5%",
+            "className": "dt-body-center"
+        }],
+        "order": [1, "asc"],
+        "columns": [
+            { "data": "checkBox" },
+            { "data": "transactionId", "title": "Transaction" },
+            { "data": "userId", "title": "User ID" },
+            { "data": "logType", "title": "Log Type" },
+            { "data": "service", "title": "Service" },
+            { "data": "customerId", "title": "Customer ID" },
+            { "data": "time", "title": "Request Timestamp" }
+        ]
+    },
+    "generalErrView": {
+        "order": [
+            [
+                0,
+                "desc"
+            ]
+        ],
+        "columns": [
+            {
+                "data": "req_id",
+                "title": "Req ID"
+            },
+            {
+                "data": "time",
+                "title": "Request Timestamp"
+            },
+            {
+                "data": "message",
+                "title": "Message"
+            }
+        ]
+    }
+}

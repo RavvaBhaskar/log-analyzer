@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tags Input</title>
+  <meta name="robots" content="index, follow" />
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <link href="/assets/styles/css/bootstrap.css" rel="stylesheet">
+  <script src="/assets/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/assets/bower_components/angular/angular.js"></script>
+  <script src="/assets/styles/taginput/js/angular.min.js"></script>
+  <script src="/assets/styles/taginput/js/bootstrap-tagsinput.min.js"></script>
+  <script src="/assets/styles/taginput/js/bootstrap-tagsinput-angular.min.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/bower_components/components-font-awesome/css/font-awesome.css">
+  <link href="assets/styles/css/heroic-features.css" rel="stylesheet">
+  <link href="/assets/styles/css/logViewer.css" rel='stylesheet' type='text/css' />
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div class="container">
+  <h2>Accordion Example</h2>
+  <div class="panel-group" id="accordion" >
+    <div class="panel panel-default" ng-repeat="microservice in microservices">
+      <div class="panel-heading custom-panel" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index+1}}">
+        <h4 class="panel-title">
+          <span>{{microservice}}</span>
+        </h4>
+      </div>
+      <div id="collapse{{$index+1}}" class="panel-collapse collapse">
+        <div class="panel-body" ng-repeat="key in keyValues">
+          <label >{{key}} :</label>
+          <div class="taginput-box custom-taginput">
+            <input type="text" value="customerID" data-role="tagsinput" id="tags" class="form-control">
+          <div class="button-space">
+            <button class="btn-primary">Add</button>
+            <button class="btn-secondary">Update</button>
+          </div>
+        </div>
+      </div>
+      </div>  
+    </div>
+  </div> 
+</div>
+<!-- <script src="/assets/styles/taginput/js/jquery.min.js"></script> -->
+<!-- <script src="/assets/styles/taginput/js/bootstrap.min.js"></script> -->
+
+<script>
+    var app = angular.module("myApp", []);
+    app.controller("myCtrl", function($scope) {
+        $scope.microservices = [
+            "Account-info",
+            "Account-ussage",
+            "User-Registration",
+            "Account-Products",
+        ],
+        $scope.keyValues = [
+            "Keyword",
+            "known Solution",
+        ]
+    }
+  );
+
+</script>
+</body>
+</html>
