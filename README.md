@@ -1,7 +1,8 @@
 ## Purpose
-This code base is for the EBPP project to auto analyze logs from the incidents
+This code base is for the project to auto analyze logs from the incidents(issues)
 
-## Usage
+## Usage:
+To reduce the manuel work for analysing the logs.
 Ensure that your machine is has node installed and check the version your machine is using by typing `node -v` . Node v6 must be used, Check the [node](httt://www.node.org) for more info on how to install and use node.
 
 1. To install all the dev dependencies
